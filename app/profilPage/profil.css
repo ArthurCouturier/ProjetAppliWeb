@@ -1,0 +1,76 @@
+/*
+Palette de couleurs:
+
+clair: #fde4f6
+moins clair: #a799fb
+medium: #615bab
+plus foncé:#2a294f
+noir perso: #140f07
+jaune sympa: #efcb6c
+autre jaune plus clair : #e9df96
+bleu moyennement foncé cool: #096ca3
+bleu plus clair: #07b5ff
+couleur plutot sombre mais sympa, taupe: #887674
+couleur plutot saumon: #ff6f75
+vert foncé cool: #124c37
+
+D'autres palettes que j'aime bien: https://mybrandnewlogo.com/fr/generateur-de-palette-de-couleurs
+*/
+
+body {
+  background-color: #fde4f6;
+}
+
+
+h1 {
+  text-align: center;
+  color: #615bab;
+}
+
+.MainButtons {
+  align-items: center;
+  background-color: #07b5ff;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  height: 48px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.MainButtons:after {
+  background-color: #111;
+  border-radius: 8px;
+  content: "";
+  display: block;
+  height: 48px;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  transform: translate(8px, 8px);
+  transition: transform .2s ease-out;
+  z-index: -1;
+}
+
+.MainButtons:hover:after {
+  transform: translate(0, 0);
+}
+
+.MainButtons:active {
+  background-color: #096ca3;
+  outline: 0;
+}
