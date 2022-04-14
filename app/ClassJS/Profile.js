@@ -1,7 +1,6 @@
-/*jshint esversion: 6 */
 "use strict";
 
-class Profil {
+class Profile {
     Constructor(name, id) {
         this.name = name;
         this.id = id;
