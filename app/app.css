@@ -16,9 +16,14 @@ vert foncé cool: #124c37
 
 D'autres palettes que j'aime bien: https://mybrandnewlogo.com/fr/generateur-de-palette-de-couleurs
 */
+@font-face {
+  font-family: 'CustomFont';
+  src: local('font/nixie_one/NixieOne.ttf');
+}
 
 body {
   background-color: #fde4f6;
+  font-family: 'CustomFont';
 }
 
 

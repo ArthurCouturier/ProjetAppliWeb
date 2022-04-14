@@ -1,5 +1,3 @@
-'use strict';
-
 function writtingEffect(element, speed) {
   var text = element.innerHTML;
   element.innerHTML = "";

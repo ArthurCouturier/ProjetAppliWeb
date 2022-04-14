@@ -1,6 +1,3 @@
-/*jshint esversion: 6 */
-"use strict";
-
 class Artiste {
     constructor(name, id) {
         this.name = name;

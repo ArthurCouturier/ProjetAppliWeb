@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>S'inscrire</title>
-    <link rel="stylesheet" href="profil.css">
+    <link rel="stylesheet" href="/app/app.css">
     <link rel="stylesheet" href="inscription.css">
 </head>
 <body>
@@ -12,25 +12,24 @@
         <form id="form">
             <h1>Inscription</h1>
             <div class="field">
-
                 <label for="password"> Password </label>
-                <input type="password" name="password" placeholder="Password" id="password">
+                <input type="password" placeholder="Password" id="password"/>
 
                 <label for="email"> Email </label>
-                <input type="email" name="email" placeholder="Email" id="email">
+                <input placeholder="Email" id="email"/>
 
                 <label for="pseudo"> Pseudo </label>
-                <input type="pseudo" name="pseudo" placeholder="Pseudo" id="pseudo">
+                <input placeholder="Pseudo" id="pseudo">
             </div>
 
-            <button id="inscriptionBouton">S'inscrire</button>
+            <span class="MainButtons" id="inscriptionBouton">S'inscrire</span>
         </form>
     </div>
 
 
     <p>By signing up, I agree to the Terms of Service and Privacy Policy</p>
 
-<script src="inscription.js"></script>
+<script src="inscription.js" type="inscriptionModule"></script>
 </div>
 
 </body>
