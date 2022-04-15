@@ -1,6 +1,10 @@
-export default class Profile {
+export class Profile {
     constructor(name, id) {
         this.name = name;
         this.id = id;
+    }
+
+    getId(){
+        return this.id;
     }
 }
