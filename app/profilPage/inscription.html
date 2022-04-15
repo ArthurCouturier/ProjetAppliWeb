@@ -5,32 +5,36 @@
     <title>S'inscrire</title>
     <link rel="stylesheet" href="/app/app.css">
     <link rel="stylesheet" href="inscription.css">
+    <script type="module" src="inscription.js" defer></script>
 </head>
 <body>
 
 <div class="container">
-        <form id="form">
-            <h1>Inscription</h1>
-            <div class="field">
-                <label for="password"> Password </label>
-                <input type="password" placeholder="Password" id="password"/>
+    <form id="form">
+        <h1>Inscription</h1>
+        <div class="field">
+            <label for="password"> Password </label>
+            <input type="password" placeholder="Password" id="password"/>
 
-                <label for="email"> Email </label>
-                <input placeholder="Email" id="email"/>
+            <label for="email"> Email </label>
+            <input placeholder="Email" id="email"/>
 
-                <label for="pseudo"> Pseudo </label>
-                <input placeholder="Pseudo" id="pseudo">
-            </div>
+            <label for="pseudo"> Pseudo </label>
+            <input placeholder="Pseudo" id="pseudo">
+        </div>
 
-            <span class="MainButtons" id="inscriptionBouton">S'inscrire</span>
-        </form>
-    </div>
+        <p>By signing up, I agree to the Terms of Service and Privacy Policy</p>
+
+        <span class="MainButtons" id="inscriptionBouton">S'inscrire</span>
+    </form>
+</div>
+
+<p></p>
+<div id="retourInscription"></div>
+<p></p>
+<a href="connection.html"><span class="MainButtons" id="allerConnection">Se connecter</span></a>
 
 
-    <p>By signing up, I agree to the Terms of Service and Privacy Policy</p>
-    <div id="retourInscription"></div>
-
-<script type="module" src="inscription.js"></script>
 </div>
 
 </body>

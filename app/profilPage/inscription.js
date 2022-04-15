@@ -1,20 +1,19 @@
+// https://practicalprogramming.fr/nodejs-mysql Va peut être nous aider à créer une BD mySQL et la connecter avec une appli node.js
+// https://www.youtube.com/watch?v=JOik3MMZ_PY&ab_channel=NadfriJS Pour faire du local storage
+
 import {Profile} from '/app/ClassJS/Profile.js';
 
 var pseudo = document.getElementById("pseudo");
 var mail = document.getElementById("email");
 var password = document.getElementById("password");
 var id = 0;
-var profiles = new Map();
-var emails = new Map();
-var passwords = new Map();
 
 var inscriptionBouton = document.querySelector("#inscriptionBouton");
 inscriptionBouton.addEventListener('click', createAccount);
 
 function checkPossibilityToSubscribe(_pseudo, _mail){
     var ok = true;
-    ok = ok && !profiles.has(_pseudo); // Check if pseudo is already used
-    ok = ok && !emails.has(_mail); // Check if email is already used
+    ok = ok && !localStorage.getItem(_pseudo); // Check if pseudo is already used
     /*if (!_mail.contains("@")) {
         return "Email non valide. Ex: arthur.couturier@etu.inp-n7.fr";
     }*/ // Ne fonctionne pas
@@ -31,18 +30,20 @@ function createAccount(){
 
     var check = checkPossibilityToSubscribe(pseudo.value, email.value)
     if (check == "ok") {
-        profiles.set(pseudo.value, new Profile.constructor(pseudo.value, id));
-        passwords.set(id, password.value);
-        emails.set(mail.value, pseudo.value);
+        var personne = {
+            pseudo: pseudo.value,
+            mail: email.value,
+            password: password.value
+        };
+        localStorage.setItem(pseudo.value, JSON.stringify(personne));
+
+
         id ++;
-        retourInscription.innerHTML = "Vous êtes bien enregistré dans notre base de donnnées";
+        var ppp = JSON.parse(localStorage.getItem(pseudo.value)).pseudo
+        retourInscription.innerHTML = "Vous êtes bien enregistré dans notre base de donnnées "+ppp;
     } else {
         retourInscription.innerHTML = check;
     }
-}
-
-export function getProfiles() {
-    return profiles.copy;
 }
 
 export function verifyConnection(_pseudo, _password) {
