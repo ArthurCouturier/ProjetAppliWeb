@@ -1,15 +1,22 @@
 // https://practicalprogramming.fr/nodejs-mysql Va peut être nous aider à créer une BD mySQL et la connecter avec une appli node.js
 // https://www.youtube.com/watch?v=JOik3MMZ_PY&ab_channel=NadfriJS Pour faire du local storage
 
+// Idée pour les mdp: stocker en mémoire une fonction entre le msp et le pseudo qui soit bijective
+// pour qu'ils ne soient pas stockés en clair dans la base de données
+// Bijection pour pouvoir etre certain de faire face au réel utilisateur uniquement par l'unicité
+// d'existence des solutions.
+
 import {Profile} from '/app/ClassJS/Profile.js';
 
 var pseudo = document.getElementById("pseudo");
 var mail = document.getElementById("email");
 var password = document.getElementById("password");
-var id = 0;
-
 var inscriptionBouton = document.querySelector("#inscriptionBouton");
 inscriptionBouton.addEventListener('click', createAccount);
+var viderStockageBouton = document.getElementById("viderStockage");
+viderStockageBouton.addEventListener('click', viderProfiles);
+
+var id = 0;
 
 function checkPossibilityToSubscribe(_pseudo, _mail){
     var ok = true;
@@ -32,7 +39,7 @@ function createAccount(){
     if (check == "ok") {
         var personne = {
             pseudo: pseudo.value,
-            mail: email.value,
+            mail: mail.value,
             password: password.value
         };
         localStorage.setItem(pseudo.value, JSON.stringify(personne));
@@ -55,4 +62,8 @@ export function verifyConnection(_pseudo, _password) {
     }
 
     return null;
+}
+
+function viderProfiles() {
+    localStorage.clear();
 }
