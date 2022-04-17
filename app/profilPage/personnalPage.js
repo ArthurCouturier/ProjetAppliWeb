@@ -16,7 +16,7 @@ function creerHTMLPlaylists() {
 }
 
 function creerPlaylist() {
-    personne.playlists.push("PLAYLIST");
+    personne.playlists.push("PLAYLIST"+(personne.playlists.length+1).toString());
     localStorage.setItem(pseudo, JSON.stringify(personne));
 }
 
