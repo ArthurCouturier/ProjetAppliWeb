@@ -37,10 +37,13 @@ function createAccount(){
 
     var check = checkPossibilityToSubscribe(pseudo.value, email.value)
     if (check == "ok") {
+        var p = [];
+        p.push("Bibliothèque");
         var personne = {
             pseudo: pseudo.value,
             mail: mail.value,
-            password: password.value
+            password: password.value,
+            playlists: p
         };
         localStorage.setItem(pseudo.value, JSON.stringify(personne));
 

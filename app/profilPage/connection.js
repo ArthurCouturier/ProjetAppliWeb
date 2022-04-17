@@ -10,7 +10,7 @@ function connection() {
     var personne = JSON.parse(localStorage.getItem(pseudo.value));
     if (personne.password == password.value) {
         retourConnection.innerHTML = "<a href=\"personnalPage.html\"><span class=\"MainButtons\" id=\"allerInscription\">Accéder à mon profil</span></a>";
-        localStorage.setItem("utilisateurActuel", personne.id.toString());
+        localStorage.setItem("utilisateurActuel", personne.pseudo.toString());
     }
 }
 
