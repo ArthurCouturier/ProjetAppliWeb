@@ -38,7 +38,9 @@ function createAccount(){
     var check = checkPossibilityToSubscribe(pseudo.value, email.value)
     if (check == "ok") {
         var p = [];
-        p.push("Bibliothèque");
+        var bibli = [];
+        bibli.push("Bibliothèque");
+        p.push(bibli);
         var personne = {
             pseudo: pseudo.value,
             mail: mail.value,
