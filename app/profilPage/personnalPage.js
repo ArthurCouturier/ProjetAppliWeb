@@ -26,8 +26,4 @@ function creerPlaylist() {
     localStorage.setItem(pseudo, JSON.stringify(personne));
 }
 
-function selectionPlaylist(p) {
-
-}
-
 creerHTMLPlaylists();
