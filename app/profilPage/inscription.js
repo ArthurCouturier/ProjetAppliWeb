@@ -1,12 +1,14 @@
-// https://practicalprogramming.fr/nodejs-mysql Va peut être nous aider à créer une BD mySQL et la connecter avec une appli node.js
-// https://www.youtube.com/watch?v=JOik3MMZ_PY&ab_channel=NadfriJS Pour faire du local storage
-
-// Idée pour les mdp: stocker en mémoire une fonction entre le msp et le pseudo qui soit bijective
-// pour qu'ils ne soient pas stockés en clair dans la base de données
-// Bijection pour pouvoir etre certain de faire face au réel utilisateur uniquement par l'unicité
-// d'existence des solutions.
-
-import {Profile} from '/app/ClassJS/Profile.js';
+require('/app/dotenv').config() // A toujours mettre tout en haut, permet de config le .env
+const express = require('express')
+const connection = require('/app/db-config')
+const app = express()
+connection.connect((error) => {
+    if (error) {
+        console.error(error)
+    } else {
+        console.log("connected to mysql")
+    }
+})
 
 var pseudo = document.getElementById("pseudo");
 var mail = document.getElementById("email");
@@ -48,6 +50,26 @@ function createAccount(){
             playlists: p
         };
         localStorage.setItem(pseudo.value, JSON.stringify(personne));
+        app.get('/'+process.env.TABLE, (req, res) => {
+            connection.query('INSERT INTO ' + process.env.TABLE + ' (pseudo) VALUES '+ personne.pseudo, (error, result) => {
+                if (error) {
+                    console.error(error)
+                    res.status(500).send("error while retrieving table database")
+                } else {
+                    res.status(200).json(result)
+                }
+            })
+        })
+        app.get('/'+process.env.TABLE, (req, res) => {
+            connection.query('SELECT * FROM ' + process.env.TABLE, (error, result) => {
+                if (error) {
+                    console.error(error)
+                    res.status(500).send("error while retrieving table database")
+                } else {
+                    res.status(200).json(result)
+                }
+            })
+        })
 
 
         id ++;

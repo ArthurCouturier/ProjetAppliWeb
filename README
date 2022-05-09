@@ -1,0 +1,50 @@
+Initialiser un projet Node
+npm init -y
+
+Dire qu'on va utiliser un dotenv et mysql2
+npm i express dotenv mysql2
+
+Lancer un serveur sql avec docker, -d pour le détacher, avec comme mdp root: root, on relie le port 3310 de notre pc au
+port 3306 (celui qu'utilise mysql) avec -p, on dit a docker qu'on prend l'image mysql et on met le tag latest pour avoir
+la dernière version, mysql-docker est un nom arbitraire du conteneur qu'on crée
+docker run --name mysql-docker --env MYSQL_ROOT_PASSWORD=root -d -p 3310:3306 mysql:latest
+
+On lance le conteneur (avec le bon nom donné précédemment), on précise qu'on veut être root donc il faut ensuite taper
+le bon mdp root. Cela lance ensuite une console mysql dans laquelle on déclare nos tables
+docker exec -it mysql-docker mysql -u root -p
+
+Mysql: on crée la database avec le nom qu'on souhaite puis on entre dedans
+CREATE DATABASE express_mysql;
+USE express_mysql;
+
+On crée la table dans la DB (une table est comme une classe js)
+CREATE TABLE thing (
+    -> id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    -> name VARCHAR(150) NOT NULL
+    -> );
+
+On crée des instances de cette classe
+INSERT INTO thing (name) VALUES  ('shoes'), ('computer'), ('raclette');
+
+On regarde tout ce qu'il y a dans cette table
+SELECT * FROM thing;
+
+Ce qui renvoie:
++----+----------+
+| id | name     |
++----+----------+
+|  1 | shoes    |
+|  2 | computer |
+|  3 | raclette |
++----+----------+
+
+On quitte cette console
+quit
+
+On lancer notre serveur node
+node index.js
+
+On peut alors aller voir cette DB dans l'url: http://localhost:5500/things
+Si on éteint la DB dans docker on voit: error while retrieving things
+Sinon: [{"id":1,"name":"shoes"},{"id":2,"name":"computer"},{"id":3,"name":"raclette"}]
+Si on éteint la DB, il faut CTRL+C le terminal qui lance le serveur node, rallumer la DB puis relancer le serveur node
