@@ -15,8 +15,7 @@ public class Artist {
     @OneToMany
     private Collection<Album> albums;
 
-    public Artist(int id, String name)  {
-        this.id = id;
+    public Artist(String name)  {
         this.name = name;
     }
 
@@ -34,5 +33,9 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addAlbum(Album album) {
+        this.albums.add(album);
     }
 }

@@ -17,14 +17,15 @@ public class User {
     @OneToMany
     private Collection<Playlist> playlists;
 
-    public User(String ps, String e, String pw) {
-        this.pseudo = ps;
-        this.email = e;
-        this.password = pw;
-        this.playlists.add(new Playlist("Bibliotheque"));
+    public User(String pseudo, String email, String password) {
+        this.pseudo = pseudo;
+        this.email = email;
+        this.password = password;
     }
 
-    public String getPseudo() { return pseudo; }
+    public String getPseudo() {
+        return pseudo;
+    }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;

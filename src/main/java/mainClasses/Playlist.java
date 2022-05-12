@@ -15,7 +15,7 @@ public class Playlist {
     @ManyToMany
     private Collection<Song> songs;
 
-    public Playlist( String name) {
+    public Playlist(String name) {
         this.name = name;
     }
 

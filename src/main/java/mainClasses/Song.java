@@ -17,11 +17,11 @@ public class Song {
     @ManyToMany
     private Collection<Artist> artists;
 
-    public Song(String name, Album album, Artist feat) {
+    public Song(String name, Album album) {
         this.name = name;
         this.album = album;
+        album.addSong(this);
         this.artists.add(album.getArtist());
-        if (feat != null) {artists.add(feat);}
     }
 
     public String getName() {
