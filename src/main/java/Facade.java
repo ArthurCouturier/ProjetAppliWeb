@@ -14,6 +14,7 @@ public class Facade {
 
     @PersistenceContext
     private EntityManager em;
+
     TypedQuery<User> req = em.createQuery("select u from User u", User.class);
     private Collection<User> users = req.getResultList();
 

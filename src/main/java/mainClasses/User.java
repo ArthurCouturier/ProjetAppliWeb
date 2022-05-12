@@ -1,37 +1,31 @@
-package mainClasses;
+package main.java.mainClasses;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
 public class User {
 
-    private int idP;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private String pseudo;
     private String email;
     private String password;
-    private Map<Integer, Playlist> playlists;
 
-    public User(int id, String ps, String e, String pw) {
-        this.id = id;
+    @OneToMany
+    private Collection<Playlist> playlists;
+
+    public User(String ps, String e, String pw) {
         this.pseudo = ps;
         this.email = e;
-        this.password =  pw;
-        this.playlists = new HashMap<Integer, Playlist>();
-        this.playlists.put(idP, new Playlist(idP, "Bibliotheque")); idP++;
+        this.password = pw;
+        this.playlists.add(new Playlist("Bibliotheque"));
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPseudo() {
-        return pseudo;
-    }
+    public String getPseudo() { return pseudo; }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
@@ -53,15 +47,15 @@ public class User {
         this.password = password;
     }
 
-    public Map<Integer, Playlist> getPlaylists() {
+    public Collection<Playlist> getPlaylists() {
         return playlists;
     }
 
     public void addPlaylist(Playlist p) {
-        this.playlists.put(idP, p); idP++;
+        this.playlists.add(p);
     }
 
     public void removePlaylist(Playlist p) {
-        this.playlists.remove(p.getId());
+        this.playlists.remove(p);
     }
 }

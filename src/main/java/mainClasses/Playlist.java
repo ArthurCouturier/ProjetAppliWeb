@@ -5,32 +5,25 @@ import java.util.Map;
 
 public class Playlist {
 
-    private int idS = 0;
+    @Id
+    @GeneratedValue (Strategy = GenerationType.AUTO)
     private int id;
-    private String name;
-    private Map<Integer, Song> songs = new HashMap<Integer, Song>();
 
-    public Playlist(int id, String name) {
-        this.id = id;
+    private String name;
+
+    @ManytoMany
+    private Collection<Song> songs;
+
+    public Playlist( String name) {
         this.name = name;
     }
 
     public void addSong(Song s) {
-        this.songs.put(idS, s); idS++;
+        this.songs.add(s);
     }
 
-    public void removeSong(int id) {
-        if (id<this.songs.size()) {
-            this.songs.remove(id);
-        }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void removeSong(Song s) {
+            this.songs.remove(s);
     }
 
     public String getName() {
@@ -41,7 +34,8 @@ public class Playlist {
         this.name = name;
     }
 
-    public Map<Integer, Song> getSongs() {
+    public Collection<Song> getSongs() {
         return songs;
     }
+
 }

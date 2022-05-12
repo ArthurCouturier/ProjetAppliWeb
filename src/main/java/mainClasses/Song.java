@@ -1,23 +1,27 @@
 package mainClasses;
 
+import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Song {
 
+    @Id
+    @GeneratedValue (Strategy = GenerationType.AUTO)
     private int id;
-    private String name;
-    private Album album;
 
-    public Song(int id, String name, Album album) {
-        this.id = id;
+    private String name;
+
+    @ManyToOne
+    private Album album;
+    @ManyToMany
+    private Collection<Artist> artist;
+
+    public Song(String name, Album album, Artist feat) {
         this.name = name;
         this.album = album;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.artist.add(album.getArtist());
+        if (feat != null) {artist.add(feat);}
     }
 
     public String getName() {
@@ -31,4 +35,13 @@ public class Song {
     public Album getAlbum() {
         return album;
     }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public Album getArtist() {
+        return this.artist;
+    }
+
 }
