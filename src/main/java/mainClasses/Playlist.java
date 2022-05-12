@@ -1,17 +1,17 @@
-package mainClasses;
+package main.java.mainClasses;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.*;
+import java.util.Collection;
 
 public class Playlist {
 
     @Id
-    @GeneratedValue (Strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
 
-    @ManytoMany
+    @ManyToMany
     private Collection<Song> songs;
 
     public Playlist( String name) {

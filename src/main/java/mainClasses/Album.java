@@ -1,4 +1,4 @@
-package mainClasses;
+package main.java.mainClasses;
 
 import java.util.HashMap;
 import java.util.Map;

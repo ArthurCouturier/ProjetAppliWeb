@@ -1,8 +1,6 @@
 package main.java.mainClasses;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 public class User {
