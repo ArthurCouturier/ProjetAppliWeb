@@ -1,15 +1,23 @@
 package main.java.mainClasses;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.*;
+import java.util.Collection;
 
+@Entity
 public class Album {
 
-    private int idS;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @ManyToOne
     private Artist artist;
+
+    @ManyToOne
     private Label label;
-    private Map<Integer, Song> songs = new HashMap<Integer, Song>();
+
+    @OneToMany
+    private Collection<Song> songs;
 
     public Album(int id, Artist artist, Label label) {
         this.id = id;
@@ -17,9 +25,7 @@ public class Album {
         this.label = label;
     }
 
-    public void addSong(Song s) {
-        this.songs.put(idS, s); idS++;
-    }
+    public void addSong(Song s) {}
 
     public int getId() {
         return id;
@@ -37,7 +43,7 @@ public class Album {
         return label;
     }
 
-    public Map<Integer, Song> getSongs() {
+    public Collection<Song> getSongs() {
         return songs;
     }
 

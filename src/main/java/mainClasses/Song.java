@@ -1,11 +1,13 @@
 package main.java.mainClasses;
 
 import javax.persistence.*;
+import java.util.Collection;
 
+@Entity
 public class Song {
 
     @Id
-    @GeneratedValue (Strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
@@ -13,13 +15,13 @@ public class Song {
     @ManyToOne
     private Album album;
     @ManyToMany
-    private Collection<Artist> artist;
+    private Collection<Artist> artists;
 
     public Song(String name, Album album, Artist feat) {
         this.name = name;
         this.album = album;
-        this.artist.add(album.getArtist());
-        if (feat != null) {artist.add(feat);}
+        this.artists.add(album.getArtist());
+        if (feat != null) {artists.add(feat);}
     }
 
     public String getName() {
@@ -38,8 +40,8 @@ public class Song {
         this.album = album;
     }
 
-    public Album getArtist() {
-        return this.artist;
+    public Collection<Artist> getArtist() {
+        return this.artists;
     }
 
 }

@@ -3,6 +3,7 @@ package main.java.mainClasses;
 import javax.persistence.*;
 import java.util.Collection;
 
+@Entity
 public class Playlist {
 
     @Id
