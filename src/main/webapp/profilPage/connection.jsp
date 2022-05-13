@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-    <form id="form">
+    <form id="form" action="Servlet" method="get">
         <h1>Connection</h1>
         <div class="field">
             <label for="password"> Password </label>
@@ -19,6 +19,7 @@
             <label for="pseudo"> Pseudo </label>
             <input type="pseudo" placeholder="Pseudo" id="pseudo">
         </div>
+        <input class="MainButtons" type="submit" name="action" value="Se connecter">
         <span class="MainButtons" id="connectionBouton">Se connecter</span>
     </form>
 </div>

@@ -22,4 +22,8 @@ public class Label {
     public void addAlbum(Album a) {
         albums.add(a);
     }
+
+    public String getName() {
+        return this.name;
+    }
 }
