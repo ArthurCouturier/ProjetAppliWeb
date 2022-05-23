@@ -1,7 +1,9 @@
 package mainClasses;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 @Entity
 public class User {
@@ -15,7 +17,7 @@ public class User {
     private String password;
 
     @OneToMany
-    private Collection<Playlist> playlists;
+    private Collection<Playlist> playlists = new ArrayList<Playlist>() ;
 
     public User(String pseudo, String email, String password) {
         this.pseudo = pseudo;

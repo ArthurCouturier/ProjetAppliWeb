@@ -1,19 +1,21 @@
-package main.java;
+package mainClasses;
 
 import mainClasses.*;
 
 import javax.ejb.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Singleton
 public class Facade {
 
-    @PersistenceContext
-    private EntityManager em;
+    @PersistenceContext(unitName = "BaseDeDonnee")
+    private EntityManager em ;
 
     //TypedQuery<User> req = em.createQuery();
     //private Collection<User> users = req.getResultList();
@@ -22,10 +24,15 @@ public class Facade {
     }
 
     public void addUser(String pseudo, String email, String password) {
+        System.out.println("Test");
         User user = new User(pseudo, email, password);
+        System.out.println("Test237");
         Playlist playlist = new Playlist("Bibliotheque");
+        System.out.println("Test238");
         user.addPlaylist(playlist);
+        System.out.println("Test236");
         em.persist(user);
+        System.out.println("Test235");
     }
 
     public void addLabel(String name) {
@@ -64,4 +71,16 @@ public class Facade {
         Song song = new Song(name, album);
         em.persist(song);
     }
-}
+
+    public User findUser(String pseudo, String password) {
+        System.out.println("Test11");
+        TypedQuery<User> reqUser = (TypedQuery<User>) em.createNativeQuery("SELECT a FROM User a WHERE a.pseudo LIKE : " + pseudo, User.class)
+                .setMaxResults(1);
+        System.out.println(reqUser);
+        System.out.println("Test12");
+        User user = reqUser.getSingleResult();
+        System.out.println("Test13");
+        return user;
+        }
+    }
+
