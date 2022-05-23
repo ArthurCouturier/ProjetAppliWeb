@@ -1,4 +1,4 @@
-package main.java.mainClasses;
+package mainClasses;
 
 import javax.persistence.*;
 import java.util.Collection;
