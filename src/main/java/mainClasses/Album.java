@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Album {
+public class Album  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

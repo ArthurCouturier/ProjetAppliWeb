@@ -25,6 +25,11 @@ public class User {
         this.password = password;
     }
 
+    public User() {
+
+    }
+
+
     public String getPseudo() {
         return pseudo;
     }
@@ -50,11 +55,11 @@ public class User {
     }
 
     public Collection<Playlist> getPlaylists() {
-        return playlists;
+      return playlists;
     }
 
     public void addPlaylist(Playlist p) {
-        this.playlists.add(p);
+      this.playlists.add(p);
     }
 
     public void removePlaylist(Playlist p) {

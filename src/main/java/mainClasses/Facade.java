@@ -1,16 +1,25 @@
 package mainClasses;
 
-import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
-
 import javax.ejb.Singleton;
 import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.metamodel.Metamodel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 @Singleton
 public class Facade {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("BaseDeDonnees");
-    @PersistenceContext(name = "BaseDeDonnee")
-    EntityManager em = emf.createEntityManager();
+    private  EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+    private EntityManager em = entityManagerFactory.createEntityManager();
+
+
 
     //TypedQuery<User> req = em.createQuery();
     //private Collection<User> users = req.getResultList();
@@ -19,19 +28,15 @@ public class Facade {
     }
 
     public void addUser(String pseudo, String email, String password) {
-        System.out.println("TestFacade1/5");
+        System.out.println("Test");
         User user = new User(pseudo, email, password);
-        System.out.println("TestFacade2/5");
+        System.out.println("Test237");
         Playlist playlist = new Playlist("Bibliotheque");
-        System.out.println("TestFacade3/5");
+        System.out.println("Test238");
         user.addPlaylist(playlist);
-        System.out.println("TestFacade4/5");
-        System.out.println(em);
-        System.out.println("TestFacade4.1/5");
-        System.out.println(em.toString());
-        System.out.println("TestFacade4.5/5");
+        System.out.println("Test236");
         em.persist(user);
-        System.out.println("TestFacade5/5");
+        System.out.println("Test235");
     }
 
     public void addLabel(String name) {
@@ -48,7 +53,7 @@ public class Facade {
         Playlist playlist = new Playlist(name);
         TypedQuery<User> req = (TypedQuery<User>) em.createNativeQuery("SELECT u FROM User u WHERE u.name LIKE : " + nameUser, User.class).setMaxResults(1);
         User user = req.getSingleResult();
-        user.addPlaylist(playlist);
+        //user.addPlaylist(playlist);
         em.merge(user);
     }
 
@@ -79,6 +84,7 @@ public class Facade {
         System.out.println("Test12");
         User user = reqUser.getSingleResult();
         System.out.println("Test13");
+        System.out.println(user.getPseudo());
         return user;
         }
     }

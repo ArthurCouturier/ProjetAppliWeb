@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Serv extends HttpServlet {
 
     @EJB
-    private final Facade facade = new Facade();
+    private Facade facade = new Facade();
 
     public Serv(){
         super();
