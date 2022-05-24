@@ -22,25 +22,29 @@ public class Facade {
 
     private EntityTransaction transac = em.getTransaction();
 
-
-    //TypedQuery<User> req = em.createQuery();
-    //private Collection<User> users = req.getResultList();
-
     public Facade(){
     }
 
-    public void addUser(String pseudo, String email, String password) {
-        transac.begin();
-        System.out.println("Test");
-        User user = new User(pseudo, email, password);
-        System.out.println("Test237");
-        //Playlist playlist = new Playlist("Bibliotheque");
-        System.out.println("Test238");
-        //user.addPlaylist(playlist);
-        System.out.println("Test236");
-        em.persist(user);
-        System.out.println("Test235");
-        transac.commit();
+    public void addUser(String pseudo, String email, String password) throws PseudoInvalidException {
+        TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
+        if (!reqUser.getResultList().isEmpty()) {
+            throw new PseudoInvalidException();
+        } else {
+            transac.begin();
+            System.out.println("Test");
+            User user = new User(pseudo, email, password);
+            System.out.println("Test237");
+            Playlist playlist = new Playlist("Bibliotheque");
+            em.persist(playlist);
+            System.out.println("Test238");
+            user.addPlaylist(playlist);
+            System.out.println("Test236");
+            System.out.println("Facade affichage nb playlists en haut 1 "+user.getPlaylists().size());
+            em.persist(user);
+            System.out.println("Facade affichage nb playlists en haut 2 "+user.getPlaylists().size());
+            System.out.println("Test235");
+            transac.commit();
+        }
     }
 
     public void addLabel(String name) {
@@ -83,11 +87,15 @@ public class Facade {
     public User findUser(String pseudo, String password) {
         System.out.println("Test11");
         TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
+        /*transac.begin();
+        em.createQuery("delete from User user").executeUpdate(); // In order to destroy our database
+        transac.commit();*/
         System.out.println("Test12");
         User user = reqUser.getResultList().get(0);
         System.out.println(user);
         System.out.println(user.getPseudo());
         System.out.println(user.getPassword().toString());
+        System.out.println("Facade affichage nb playlists "+user.getPlaylists().size());
         if (user == null) {
             System.out.println("user null");
             return null;

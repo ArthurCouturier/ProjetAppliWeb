@@ -34,10 +34,11 @@ public class Serv extends HttpServlet {
                 if (user == null) {
                     System.out.println("Test3");
                     request.setAttribute("error", "notfound");
+                    request.getRequestDispatcher("connection.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("user", user);
+                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
                 }
-                System.out.println("Test4");
-                request.getRequestDispatcher("connection.jsp").forward(request, response);
-                System.out.println("Test5");
                 return;
 
             } else if (action.equals("inscription")) {
@@ -57,6 +58,10 @@ public class Serv extends HttpServlet {
 
             }
 
+        } catch (PseudoInvalidException e) {
+            request.setAttribute("error", "pseudoInvalid");
+            request.getRequestDispatcher("inscription.jsp").forward(request, response);
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

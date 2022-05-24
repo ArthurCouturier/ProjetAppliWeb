@@ -24,6 +24,10 @@
 
         <input type="submit" name="action" value="inscription">
     </form>
+    <% String typeError = (String) request.getAttribute("error");
+        if (typeError == "pseudoInvalid")  { %>
+    Pseudo déjà utilisé !! Veuillez réessayer !!
+    <% } %>
 </div>
 
 <p></p>
