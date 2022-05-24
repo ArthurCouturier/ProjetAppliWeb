@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>S'inscrire</title>
-    <link rel="stylesheet" href="/app/app.css">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
         <p>By signing up, I agree to the Terms of Service and Privacy Policy</p>
 
-        <input type="submit" name="action" value="inscription">
+        <input href="connection.jsp" type="submit" name="action" value="inscription">
     </form>
 </div>
 

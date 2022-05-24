@@ -1,21 +1,16 @@
 package mainClasses;
 
-import mainClasses.*;
+import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 
 import javax.ejb.Singleton;
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.metamodel.Metamodel;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 
 @Singleton
 public class Facade {
 
-    @PersistenceContext(unitName = "BaseDeDonnee")
-    private EntityManager em ;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("BaseDeDonnees");
+    @PersistenceContext(name = "BaseDeDonnee")
+    EntityManager em = emf.createEntityManager();
 
     //TypedQuery<User> req = em.createQuery();
     //private Collection<User> users = req.getResultList();
@@ -24,15 +19,19 @@ public class Facade {
     }
 
     public void addUser(String pseudo, String email, String password) {
-        System.out.println("Test");
+        System.out.println("TestFacade1/5");
         User user = new User(pseudo, email, password);
-        System.out.println("Test237");
+        System.out.println("TestFacade2/5");
         Playlist playlist = new Playlist("Bibliotheque");
-        System.out.println("Test238");
+        System.out.println("TestFacade3/5");
         user.addPlaylist(playlist);
-        System.out.println("Test236");
+        System.out.println("TestFacade4/5");
+        System.out.println(em);
+        System.out.println("TestFacade4.1/5");
+        System.out.println(em.toString());
+        System.out.println("TestFacade4.5/5");
         em.persist(user);
-        System.out.println("Test235");
+        System.out.println("TestFacade5/5");
     }
 
     public void addLabel(String name) {

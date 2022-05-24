@@ -13,6 +13,9 @@
         <element id="directory" name="classes">
           <element id="module-output" name="projet_appli_web_v2" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/projet_appli_web_v2-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
