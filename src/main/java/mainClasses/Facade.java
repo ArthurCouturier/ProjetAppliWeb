@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -19,6 +20,7 @@ public class Facade {
     private  EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
     private EntityManager em = entityManagerFactory.createEntityManager();
 
+    private EntityTransaction transac = em.getTransaction();
 
 
     //TypedQuery<User> req = em.createQuery();
@@ -28,15 +30,17 @@ public class Facade {
     }
 
     public void addUser(String pseudo, String email, String password) {
+        transac.begin();
         System.out.println("Test");
         User user = new User(pseudo, email, password);
         System.out.println("Test237");
-        Playlist playlist = new Playlist("Bibliotheque");
+        //Playlist playlist = new Playlist("Bibliotheque");
         System.out.println("Test238");
-        user.addPlaylist(playlist);
+        //user.addPlaylist(playlist);
         System.out.println("Test236");
         em.persist(user);
         System.out.println("Test235");
+        transac.commit();
     }
 
     public void addLabel(String name) {
@@ -78,14 +82,23 @@ public class Facade {
 
     public User findUser(String pseudo, String password) {
         System.out.println("Test11");
-        TypedQuery<User> reqUser = (TypedQuery<User>) em.createNativeQuery("SELECT a FROM User a WHERE a.pseudo LIKE : " + pseudo, User.class)
-                .setMaxResults(1);
-        System.out.println(reqUser);
+        TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
         System.out.println("Test12");
-        User user = reqUser.getSingleResult();
-        System.out.println("Test13");
+        User user = reqUser.getResultList().get(0);
+        System.out.println(user);
         System.out.println(user.getPseudo());
-        return user;
+        System.out.println(user.getPassword().toString());
+        if (user == null) {
+            System.out.println("user null");
+            return null;
+        } else if (user.getPassword().equals(password)){
+            System.out.println("non null");
+            return user;
+        } else {
+            System.out.println("faux mdp");
+            return null;
+        }
+
         }
     }
 

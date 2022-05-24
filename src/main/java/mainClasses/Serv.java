@@ -58,7 +58,7 @@ public class Serv extends HttpServlet {
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }
