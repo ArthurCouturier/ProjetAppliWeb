@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Se connecter</title>
-    <link rel="stylesheet" href="/app/app.css">
+    <link rel="stylesheet" href="./app.css">
 </head>
 <body>
 
