@@ -14,6 +14,8 @@ public class Serv extends HttpServlet {
     @EJB
     private final Facade facade = new Facade();
 
+    private User actualUser;
+
     public Serv(){
         super();
     }
@@ -32,6 +34,7 @@ public class Serv extends HttpServlet {
                         request.setAttribute("error", "notfound");
                         request.getRequestDispatcher("connection.jsp").forward(request, response);
                     } else {
+                        this.actualUser = user;
                         request.setAttribute("user", user);
                         request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
                     }
@@ -45,9 +48,12 @@ public class Serv extends HttpServlet {
                     request.getRequestDispatcher("connection.jsp").forward(request, response);
 
                 }
-                case "c":
 
-                    break;
+                case "addPlaylist": {
+                    facade.addPlaylist("Playlist"+Integer.toString(actualUser.getPlaylists().size()+1), actualUser);
+                    request.setAttribute("user", actualUser);
+                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                }
             }
 
         } catch (PseudoInvalidException e) {

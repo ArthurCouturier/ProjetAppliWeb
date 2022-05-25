@@ -52,11 +52,10 @@ public class Facade {
         em.persist(artist);
     }
 
-    public void addPlaylist(String name, String nameUser) {
+    public void addPlaylist(String name, User user) {
         Playlist playlist = new Playlist(name);
-        TypedQuery<User> req = (TypedQuery<User>) em.createNativeQuery("SELECT u FROM User u WHERE u.name LIKE : " + nameUser, User.class).setMaxResults(1);
-        User user = req.getSingleResult();
-        //user.addPlaylist(playlist);
+        em.persist(playlist);
+        user.addPlaylist(playlist);
         em.merge(user);
     }
 
@@ -91,10 +90,12 @@ public class Facade {
             return null;
         } else if (user.getPassword().equals(password)){
             System.out.println("correct user correct password");
+            TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select user.playlists from User user where user.pseudo = :pseudo ", Playlist.class).setParameter("pseudo",pseudo);
+            user.setPlaylists(reqPlaylist.getResultList());
             return user;
         } else {
             System.out.println("correct user incorrect password");
             return null;
         }
-        }
     }
+}

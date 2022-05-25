@@ -58,6 +58,10 @@ public class User {
       return playlists;
     }
 
+    public void setPlaylists(Collection<Playlist> playlists) {
+      this.playlists = playlists;
+    }
+
     public void addPlaylist(Playlist p) {
       this.playlists.add(p);
     }

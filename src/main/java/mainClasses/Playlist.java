@@ -19,6 +19,10 @@ public class Playlist {
         this.name = name;
     }
 
+    public Playlist() {
+        this.name = "Bibliotheque";
+    }
+
     public void addSong(Song s) {
         this.songs.add(s);
     }
@@ -28,11 +32,15 @@ public class Playlist {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public Collection<Song> getSongs() {
