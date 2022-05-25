@@ -12,6 +12,10 @@ public class Playlist {
 
     private String name;
 
+
+    @ManyToOne
+    private User user;
+
     @ManyToMany
     private Collection<Song> songs;
 
@@ -41,6 +45,14 @@ public class Playlist {
 
     public int getId() {
         return this.id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Collection<Song> getSongs() {

@@ -38,6 +38,7 @@ public class Serv extends HttpServlet {
                         request.setAttribute("user", user);
                         request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
                     }
+                    break;
 
                 }
                 case "inscription": {
@@ -46,6 +47,7 @@ public class Serv extends HttpServlet {
                     String email = request.getParameter("email");
                     facade.addUser(pseudo, email, password);
                     request.getRequestDispatcher("connection.jsp").forward(request, response);
+                    break;
 
                 }
 
@@ -53,6 +55,7 @@ public class Serv extends HttpServlet {
                     facade.addPlaylist("Playlist"+Integer.toString(actualUser.getPlaylists().size()+1), actualUser);
                     request.setAttribute("user", actualUser);
                     request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                    break;
                 }
             }
 

@@ -33,6 +33,7 @@ public class Facade {
             transac.begin();
             User user = new User(pseudo, email, password);
             Playlist playlist = new Playlist("Bibliotheque");
+            playlist.setUser(user);
             em.persist(playlist);
             user.addPlaylist(playlist);
             System.out.println("Facade affichage nb playlists en haut 1 "+user.getPlaylists().size());
@@ -40,6 +41,7 @@ public class Facade {
             System.out.println("Facade affichage nb playlists en haut 2 "+user.getPlaylists().size());
             transac.commit();
         }
+
     }
 
     public void addLabel(String name) {
@@ -53,10 +55,13 @@ public class Facade {
     }
 
     public void addPlaylist(String name, User user) {
+        transac.begin();
         Playlist playlist = new Playlist(name);
+        playlist.setUser(user);
         em.persist(playlist);
         user.addPlaylist(playlist);
         em.merge(user);
+        transac.commit();
     }
 
     public void addAlbum(String name, String nameArtist, String nameLabel) {
@@ -90,8 +95,9 @@ public class Facade {
             return null;
         } else if (user.getPassword().equals(password)){
             System.out.println("correct user correct password");
-            TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select user.playlists from User user where user.pseudo = :pseudo ", Playlist.class).setParameter("pseudo",pseudo);
-            user.setPlaylists(reqPlaylist.getResultList());
+            //TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select playlists from Playlist playlists JOIN playlists.user user where user.pseudo = :pseudo ", Playlist.class).setParameter("pseudo",pseudo);
+            // List<Playlist> playlist2 = reqPlaylist.getResultList();
+            //System.out.println("Test" + playlist2);
             return user;
         } else {
             System.out.println("correct user incorrect password");
