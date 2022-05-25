@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Serv extends HttpServlet {
 
     @EJB
-    private Facade facade = new Facade();
+    private final Facade facade = new Facade();
 
     public Serv(){
         super();
@@ -23,39 +23,31 @@ public class Serv extends HttpServlet {
 
             String action = request.getParameter("action");
             System.out.println("Test1");
-            if (action.equals("connexion")){
-                System.out.println("Test2");
-                String pseudo = request.getParameter("pseudo");
-                System.out.println(pseudo);
-                String password = request.getParameter("password");
-                System.out.println(password);
-                User user = facade.findUser(pseudo,password);
-                System.out.println("Test6");
-                if (user == null) {
-                    System.out.println("Test3");
-                    request.setAttribute("error", "notfound");
-                    request.getRequestDispatcher("connection.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("user", user);
-                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+            switch (action) {
+                case "connexion": {
+                    String pseudo = request.getParameter("pseudo");
+                    String password = request.getParameter("password");
+                    User user = facade.findUser(pseudo, password);
+                    if (user == null) {
+                        request.setAttribute("error", "notfound");
+                        request.getRequestDispatcher("connection.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("user", user);
+                        request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                    }
+
                 }
-                return;
+                case "inscription": {
+                    String pseudo = request.getParameter("pseudo");
+                    String password = request.getParameter("password");
+                    String email = request.getParameter("email");
+                    facade.addUser(pseudo, email, password);
+                    request.getRequestDispatcher("connection.jsp").forward(request, response);
 
-            } else if (action.equals("inscription")) {
-                System.out.println("Test22");
-                String pseudo = request.getParameter("pseudo");
-                System.out.println(pseudo);
-                String password = request.getParameter("password");
-                System.out.println(password);
-                String email = request.getParameter("email");
-                System.out.println(email);
-                facade.addUser(pseudo,email,password);
-                System.out.println("TEST23");
-                request.getRequestDispatcher("connection.jsp").forward(request, response);
-                return;
+                }
+                case "c":
 
-            } else if (action.equals("c")){
-
+                    break;
             }
 
         } catch (PseudoInvalidException e) {

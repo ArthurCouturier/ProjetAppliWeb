@@ -11,7 +11,6 @@
     <meta charset="UTF-8">
     <title id="nomPlaylistTitre">Ma playlist</title>
     <link rel="stylesheet" href="./app.css">
-    <script type="module" src="playlistViewer.js" defer></script>
 </head>
 <body>
 

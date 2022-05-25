@@ -31,18 +31,13 @@ public class Facade {
             throw new PseudoInvalidException();
         } else {
             transac.begin();
-            System.out.println("Test");
             User user = new User(pseudo, email, password);
-            System.out.println("Test237");
             Playlist playlist = new Playlist("Bibliotheque");
             em.persist(playlist);
-            System.out.println("Test238");
             user.addPlaylist(playlist);
-            System.out.println("Test236");
             System.out.println("Facade affichage nb playlists en haut 1 "+user.getPlaylists().size());
             em.persist(user);
             System.out.println("Facade affichage nb playlists en haut 2 "+user.getPlaylists().size());
-            System.out.println("Test235");
             transac.commit();
         }
     }
@@ -85,28 +80,21 @@ public class Facade {
     }
 
     public User findUser(String pseudo, String password) {
-        System.out.println("Test11");
-        TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
+        // In order to destroy our database, comment rest of this code and add a return null; statement at the end
         /*transac.begin();
-        em.createQuery("delete from User user").executeUpdate(); // In order to destroy our database
+        em.createQuery("delete from User user").executeUpdate();
         transac.commit();*/
-        System.out.println("Test12");
+        TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
         User user = reqUser.getResultList().get(0);
-        System.out.println(user);
-        System.out.println(user.getPseudo());
-        System.out.println(user.getPassword().toString());
-        System.out.println("Facade affichage nb playlists "+user.getPlaylists().size());
         if (user == null) {
-            System.out.println("user null");
+            System.out.println("incorrect user");
             return null;
         } else if (user.getPassword().equals(password)){
-            System.out.println("non null");
+            System.out.println("correct user correct password");
             return user;
         } else {
-            System.out.println("faux mdp");
+            System.out.println("correct user incorrect password");
             return null;
         }
-
         }
     }
-

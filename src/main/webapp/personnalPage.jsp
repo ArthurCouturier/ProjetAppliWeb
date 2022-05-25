@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Mon profil</title>
     <link rel="stylesheet" href="./app.css">
-    <script type="module" src="./personnalPage.js" defer></script>
 </head>
 <body>
 

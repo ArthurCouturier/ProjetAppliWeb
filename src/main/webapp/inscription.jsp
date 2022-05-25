@@ -31,10 +31,9 @@
 </div>
 
 <p></p>
-<div id="retourInscription"></div>
-<p></p>
-<a href="connection.jsp"><span class="MainButtons" id="allerConnection">Se connecter</span></a>
-
+<div id="retourInscription">
+    <p></p>
+    <a href="connection.jsp"><span class="MainButtons" id="allerConnection">Se connecter</span></a>
 </div>
 
 </body>

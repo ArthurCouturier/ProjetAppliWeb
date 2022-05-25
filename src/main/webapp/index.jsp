@@ -7,8 +7,6 @@
     <title>7pple Music</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/main.css">
     <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="index.css">
 </head>
@@ -19,7 +17,7 @@
 <h1 id="logo">7ppleMusic</h1>
 
 <div class="wrapper">
-    <a class="cta" href="profil.jsp">
+    <a class="cta" href="connecInscrip.jsp">
         <span>ENTRER</span>
         <span>
       <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -33,7 +31,7 @@
     </a>
 </div>
 
-<script src="app.js">executeAnim()</script>
+<script src="animIndex.js">executeAnim()</script>
 
 </body>
 </html>
