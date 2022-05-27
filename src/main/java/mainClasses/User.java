@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -29,7 +28,9 @@ public class User {
 
     }
 
-
+    public int getId() {
+        return id;
+    }
     public String getPseudo() {
         return pseudo;
     }

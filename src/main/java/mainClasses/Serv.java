@@ -56,7 +56,7 @@ public class Serv extends HttpServlet {
 
                 }
 
-                case "addPlaylist": {
+                case "Ajouter une Playlist": {
                     facade.addPlaylist("Playlist"+Integer.toString(actualUser.getPlaylists().size()+1), actualUser);
                     request.setAttribute("user", actualUser);
                     request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
@@ -66,9 +66,36 @@ public class Serv extends HttpServlet {
                 case "Changer le nom de la playlist":  {
                     String newNom = request.getParameter("newNom");
                     facade.changePlaylistName(actualPlaylist, newNom);
+                    this.actualPlaylist = facade.findPlaylist(String.valueOf(this.actualPlaylist.getId()));
+                    request.setAttribute("playlist",this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
                 }
+
+                case "Accéder à la Playlist":  {
+                    String idplaylist = request.getParameter("idPlaylist");
+                    this.actualPlaylist = facade.findPlaylist(idplaylist);
+                    request.setAttribute("playlist",this.actualPlaylist);
+                    request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
+                    break;
+                }
+
+                case "Supprimer la Playlist":  {
+                    this.actualPlaylist=null;
+                    String idplaylist = request.getParameter("idPlaylist");
+                    Playlist playlistsuppr = facade.findPlaylist(idplaylist);
+                    this.actualUser = facade.removePlaylist(playlistsuppr,this.actualUser);
+                    request.setAttribute("user", actualUser);
+                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                    break;
+                }
+
+                case "Retour Selection Playlist":  {
+                    request.setAttribute("user", actualUser);
+                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                    break;
+                }
+
             }
 
         } catch (PseudoInvalidException e) {

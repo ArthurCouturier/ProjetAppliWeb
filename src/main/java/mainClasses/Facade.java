@@ -105,7 +105,29 @@ public class Facade {
         }
     }
 
+    public Playlist findPlaylist(String idPlaylist) {
+        int idPlaylist1 = Integer.parseInt(idPlaylist);
+        Playlist playlist = em.find(Playlist.class, idPlaylist1);
+        return playlist;
+    }
+
     public void changePlaylistName(Playlist playlist, String newName) {
-        playlist.setName(newName);
+        transac.begin();
+        Playlist playlistmodif = em.find(Playlist.class,playlist.getId());
+        playlistmodif.setName(newName);
+        em.merge(playlistmodif);
+        transac.commit();
+    }
+
+    public User removePlaylist(Playlist playlist,User user){
+        transac.begin();
+        User usermodif = em.find(User.class,user.getId());
+        Playlist playlistsuppr = em.find(Playlist.class,playlist.getId());
+        playlistsuppr.setUser(null);
+        usermodif.removePlaylist(playlistsuppr);
+        em.remove(playlistsuppr);
+        em.merge(usermodif);
+        transac.commit();
+        return usermodif;
     }
 }

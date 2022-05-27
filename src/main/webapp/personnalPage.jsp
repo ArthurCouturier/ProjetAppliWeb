@@ -16,15 +16,20 @@
         <h1>Mes playlists</h1>
     </div>
     <form id="form" action="Serv" method="get">
-        <input class="MainButtons" type="submit" name="action" value="addPlaylist">
+        <input class="MainButtons" type="submit" name="action" value="Ajouter une Playlist">
         <% User user = (User) request.getAttribute("user");
         for (Playlist playlist : user.getPlaylists()) {
-            String name = playlist.getName();
+            String namePlaylist = playlist.getName();
         %>
-            <a href="playlistViewer.jsp"><span class="MainButtons"><%out.print(playlist.getName());%></span></a>
-        <% } %>
+        <input type="radio" name=idPlaylist value=<%=String.valueOf(playlist.getId())%>> <%=playlist.getName()%><br>
+          <% } %>
+        <input class="MainButtons" type="submit" name="action" value="Accéder à la Playlist">
+        <input class="MainButtons" type="submit" name="action" value="Supprimer la Playlist">
+
     </form>
 </div>
 
 </body>
 </html>
+
+
