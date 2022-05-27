@@ -104,4 +104,8 @@ public class Facade {
             return null;
         }
     }
+
+    public void changePlaylistName(Playlist playlist, String newName) {
+        playlist.setName(newName);
+    }
 }

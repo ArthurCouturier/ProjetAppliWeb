@@ -16,12 +16,10 @@
         <h1>Mes playlists</h1>
     </div>
     <form id="form" action="Serv" method="get">
-        <a id="creerPlaylistBouton"><span class="MainButtons">Créer une playlist<input type="submit" name="action" value="addPlaylist"></span></a>
+        <input class="MainButtons" type="submit" name="action" value="addPlaylist">
         <% User user = (User) request.getAttribute("user");
-        System.out.println("TEST PERSO PAGE playlists of user: "+user.getPlaylists());
         for (Playlist playlist : user.getPlaylists()) {
             String name = playlist.getName();
-            System.out.println("TEST PERSONNAL PAGE actual playlist: "+ name);
         %>
             <a href="playlistViewer.jsp"><span class="MainButtons"><%out.print(playlist.getName());%></span></a>
         <% } %>

@@ -21,9 +21,9 @@
     <form id="form">
         <div class="field">
             <label for="nouveauNomPlaylist"> Modifier Nom </label>
-            <input placeholder="Modifier Nom Playlist" id="nouveauNomPlaylist">
+            <input placeholder="Modifier Nom Playlist" id="nouveauNomPlaylist" name="newNom">
         </div>
-        <span class="MainButtons" id="changementNomBouton">Confirmer</span>
+        <input class="MainButtons" type="submit" name="action" value="Changer le nom de la playlist">
     </form>
 
     <div id="musiques">

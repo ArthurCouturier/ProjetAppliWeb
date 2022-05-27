@@ -15,6 +15,7 @@ public class Serv extends HttpServlet {
     private final Facade facade = new Facade();
 
     private User actualUser;
+    private Playlist actualPlaylist;
 
     public Serv(){
         super();
@@ -29,6 +30,10 @@ public class Serv extends HttpServlet {
                 case "connexion": {
                     String pseudo = request.getParameter("pseudo");
                     String password = request.getParameter("password");
+                    if (pseudo == "" || password == "") {
+                        request.setAttribute("error", "notfound");
+                        request.getRequestDispatcher("connection.jsp").forward(request, response);
+                    }
                     User user = facade.findUser(pseudo, password);
                     if (user == null) {
                         request.setAttribute("error", "notfound");
@@ -55,6 +60,13 @@ public class Serv extends HttpServlet {
                     facade.addPlaylist("Playlist"+Integer.toString(actualUser.getPlaylists().size()+1), actualUser);
                     request.setAttribute("user", actualUser);
                     request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
+                    break;
+                }
+
+                case "Changer le nom de la playlist":  {
+                    String newNom = request.getParameter("newNom");
+                    facade.changePlaylistName(actualPlaylist, newNom);
+                    request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
                 }
             }
