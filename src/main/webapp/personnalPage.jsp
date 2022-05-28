@@ -19,7 +19,6 @@
         <input class="MainButtons" type="submit" name="action" value="Ajouter une Playlist">
         <% User user = (User) request.getAttribute("user");
         for (Playlist playlist : user.getPlaylists()) {
-            String namePlaylist = playlist.getName();
         %>
         <input type="radio" name=idPlaylist value=<%=String.valueOf(playlist.getId())%>> <%=playlist.getName()%><br>
           <% } %>

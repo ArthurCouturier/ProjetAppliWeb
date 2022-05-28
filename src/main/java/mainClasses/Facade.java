@@ -5,14 +5,6 @@ import javax.persistence.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.metamodel.Metamodel;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class Facade {
@@ -64,6 +56,16 @@ public class Facade {
         transac.commit();
     }
 
+    public Playlist addSongPlaylist(String idSong, Playlist playlist) {
+        transac.begin();
+        Playlist playlist1 = em.find(Playlist.class,playlist.getId());
+        Song son = em.find(Song.class,Integer.parseInt(idSong));
+        playlist1.addSong(son);
+        em.merge(playlist1);
+        transac.commit();
+        return playlist1;
+    }
+
     public void addAlbum(String name, String nameArtist, String nameLabel) {
         TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createNativeQuery("SELECT a FROM Artist a WHERE a.name LIKE : " + nameArtist, Artist.class)
                 .setMaxResults(1);
@@ -75,12 +77,20 @@ public class Facade {
         em.persist(album);
     }
 
-    public void addSong(String name, String nameAlbum) {
-        TypedQuery<Album> reqAlbum = (TypedQuery<Album>) em.createNativeQuery("SELECT a FROM Album a WHERE a.name LIKE : " + nameAlbum, Album.class)
-                .setMaxResults(1);
-        Album album = reqAlbum.getSingleResult();
-        Song song = new Song(name, album);
+    public Song addSong(String name, String nameAlbum, String urlvideo) {
+        Album album = null;
+        if (nameAlbum != null){
+            TypedQuery<Album> reqAlbum = (TypedQuery<Album>) em.createNativeQuery("select album from Album album where album.name = :nameAlbum ", Album.class).setParameter("nameAlbum",nameAlbum);
+            if (reqAlbum.getResultList().isEmpty()) {
+                album = new Album(nameAlbum, null, null);
+            } else {
+                album = reqAlbum.getResultList().get(0);
+            }
+        }
+
+        Song song = new Song(name, album, urlvideo);
         em.persist(song);
+        return song;
     }
 
     public User findUser(String pseudo, String password) {
@@ -105,6 +115,12 @@ public class Facade {
         }
     }
 
+
+    public Song findSong(String idSong) {
+        int idSong1 = Integer.parseInt(idSong);
+        Song son = em.find(Song.class, idSong1);
+        return son;
+    }
     public Playlist findPlaylist(String idPlaylist) {
         int idPlaylist1 = Integer.parseInt(idPlaylist);
         Playlist playlist = em.find(Playlist.class, idPlaylist1);
@@ -129,5 +145,15 @@ public class Facade {
         em.merge(usermodif);
         transac.commit();
         return usermodif;
+    }
+
+    public Playlist removeSong(Playlist playlist,String idSong){
+        transac.begin();
+        Playlist playlist1 = em.find(Playlist.class,playlist.getId());
+        Song son = em.find(Song.class,Integer.parseInt(idSong));
+        playlist1.removeSong(son);
+        em.merge(playlist1);
+        transac.commit();
+        return playlist1;
     }
 }

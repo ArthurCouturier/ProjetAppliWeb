@@ -14,14 +14,23 @@ public class Song {
 
     @ManyToOne
     private Album album;
+
+    private String url;
     @ManyToMany
     private Collection<Artist> artists;
 
-    public Song(String name, Album album) {
+    public Song(String name, Album album, String url) {
         this.name = name;
         this.album = album;
-        album.addSong(this);
-        this.artists.add(album.getArtist());
+        if (album != null) {
+            album.addSong(this);
+            this.artists.add(album.getArtist());
+        }
+        this.url = url;
+    }
+
+    public Song() {
+
     }
 
     public String getName() {
@@ -44,4 +53,11 @@ public class Song {
         return this.artists;
     }
 
+    public String getUrl() {
+        return this.url;
+    }
+
+    public int getId() {
+        return this.id;
+    }
 }
