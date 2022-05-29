@@ -38,4 +38,8 @@ public class Artist {
     public void addAlbum(Album album) {
         this.albums.add(album);
     }
+
+    public Collection<Album> getAlbums() {
+        return this.albums;
+    }
 }

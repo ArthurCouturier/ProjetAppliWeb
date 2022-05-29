@@ -55,4 +55,9 @@ public class Album  {
     public String toString() {
         return "Album{" + "id=" + id + ", artist=" + artist + ", label=" + label + ", songs=" + songs + '}';
     }
+
+    public String getName() {
+        return this.name;
+    }
+
 }

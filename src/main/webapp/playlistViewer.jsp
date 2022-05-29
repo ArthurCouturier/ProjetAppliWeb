@@ -1,11 +1,5 @@
 <%@ page import="mainClasses.Playlist" %>
-<%@ page import="mainClasses.Song" %><%--
-  Created by IntelliJ IDEA.
-  User: 33783
-  Date: 24/05/2022
-  Time: 19:08
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="mainClasses.Song" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -25,20 +19,23 @@
     <form id="form">
         <div class="field">
             <label for="nouveauNomPlaylist"> Modifier Nom </label>
-            <input id="nouveauNomPlaylist" name="newNom" value="Nouveau Nom Playlist">
-            <input id="nouveauNomSon" name="newNameSon" value="Nouveau Nom Son">
-            <input id="UrlSon" name="newUrlSon" value="Url Son">
+            <input id="nouveauNomPlaylist" name="newNom" placeholder="Nouveau Nom Playlist">
+
         </div>
         <input class="MainButtons" type="submit" name="action" value="Changer le nom de la playlist">
         <input class="MainButtons" type="submit" name="action" value="Retour Selection Playlist">
 
-        <% for (Song son : playlist.getSongs()) {
-        %>
-        <input type="radio" name=idSong value=<%=String.valueOf(son.getId())%>> <%=son.getName()%><br>
-        <% } %>
+        <div id="radios">
+            <% for (Song son : playlist.getSongs()) {
+            %>
+            <input type="radio" name=idSong value=<%=String.valueOf(son.getId())%>> <%=son.getName()%><br>
+            <% } %>
+            <span id="slider"></span>
+        </div>
+
         <input class="MainButtons" type="submit" name="action" value="Accéder au Son">
-        <input class="MainButtons" type="submit" name="action" value="Ajouter un son">
         <input class="MainButtons" type="submit" name="action" value="Supprimer un son">
+        <input class="MainButtons" type="submit" name="action" value="Ajouter un son a la playlist">
     </form>
 
     <div id="musiques">

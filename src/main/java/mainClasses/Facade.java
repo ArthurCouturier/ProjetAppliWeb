@@ -121,6 +121,25 @@ public class Facade {
         Song son = em.find(Song.class, idSong1);
         return son;
     }
+
+    public Artist findArtistByName(String artistName) {
+        TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createQuery("select artist from Artist artist where artist.name = :pseudo ", Artist.class).setParameter("pseudo",artistName);
+        Artist artist = reqArtist.getSingleResult();
+        if (artist == null) {
+            artist = new Artist(artistName);
+        }
+        return artist;
+    }
+
+    public Album findAlbumOfArtist(String albumName, String artistName) {
+        Artist artist = findArtistByName(artistName);
+        for (Album album: artist.getAlbums()) {
+            if (album.getName() == albumName) {
+                return album;
+            }
+        }
+        return new Album(albumName, artist, null);
+    }
     public Playlist findPlaylist(String idPlaylist) {
         int idPlaylist1 = Integer.parseInt(idPlaylist);
         Playlist playlist = em.find(Playlist.class, idPlaylist1);

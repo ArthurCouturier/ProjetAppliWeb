@@ -109,11 +109,24 @@ public class Serv extends HttpServlet {
                     break;
                 }
 
+                case "Ajouter un son a la playlist": {
+                    request.getRequestDispatcher("addSong.jsp").forward(request, response);
+                    break;
+                }
+
                 case "Ajouter un son": {
                     String nomSon = request.getParameter("newNameSon");
+                    String artistName =  request.getParameter("newSongArtist");
+                    String albumName = request.getParameter("newSongAlbum");
                     String url = request.getParameter("newUrlSon");
-                    Song son = facade.addSong(nomSon,null,url);
-                    this.actualPlaylist = facade.addSongPlaylist(String.valueOf(son.getId()),this.actualPlaylist);
+                    Song song = facade.addSong(nomSon,null,url);
+                    Album album = facade.findAlbumOfArtist(albumName, artistName);
+                    if (album.getSongs().contains(song)) {
+                        break;
+                    } else {
+                        album.addSong(song);
+                    }
+                    this.actualPlaylist = facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
