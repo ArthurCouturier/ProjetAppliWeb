@@ -99,6 +99,11 @@ public class Facade {
         // In order to destroy our database, comment rest of this code and add a return null; statement at the end
         /*transac.begin();
         em.createQuery("delete from User user").executeUpdate();
+        em.createQuery("delete from Album album").executeUpdate();
+        em.createQuery("delete from Artist artist").executeUpdate();
+        em.createQuery("delete from Playlist playlist").executeUpdate();
+        em.createQuery("delete from Song song").executeUpdate();
+        em.createQuery("delete from Label label").executeUpdate();
         transac.commit();*/
         TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
         User user = reqUser.getResultList().get(0);
@@ -196,5 +201,22 @@ public class Facade {
         em.merge(playlist1);
         transac.commit();
         return playlist1;
+    }
+
+    public void removeSongOfDB(Song song){
+        System.out.println("I will delete "+song.getName()+" of the DB");
+        /*transac.begin();
+        em.createQuery("delete from Song where id = :id")
+                .setParameter("id", song.getId())
+                .executeUpdate();
+        transac.commit();*/
+        em.getTransaction().begin();
+        System.out.println("TEST FACADE removesongofdb: "+em.find(Song.class, song.getId()));
+        em.remove(song);
+        System.out.println("TEST FACADE2 removesongofdb: "+em.find(Song.class, song.getId()));
+        System.out.println("TEST FACADE 2.5 flushmode: "+em.getFlushMode());
+        em.setFlushMode(FlushModeType.COMMIT);
+        System.out.println("TEST FACADE3 removesongofdb: "+em.find(Song.class, song.getId()));
+        em.getTransaction().commit();
     }
 }

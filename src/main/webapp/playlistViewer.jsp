@@ -16,7 +16,7 @@
         <h1><%=playlist.getName()%></h1>
     </div>
 
-    <form id="form">
+    <form id="form" action="Serv" method="get">
         <div class="field">
             <label for="nouveauNomPlaylist"> Modifier Nom </label>
             <input id="nouveauNomPlaylist" name="newNom" placeholder="Nouveau Nom Playlist">

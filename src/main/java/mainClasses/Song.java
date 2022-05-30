@@ -1,10 +1,11 @@
 package mainClasses;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-public class Song {
+public class Song implements Serializable {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
@@ -12,11 +13,11 @@ public class Song {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Album album;
 
     private String url;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private Collection<Artist> artists;
 
     public Song(String name, Album album, String url) {

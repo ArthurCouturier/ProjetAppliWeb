@@ -69,4 +69,12 @@ public class Album  {
         return this.name;
     }
 
+    public void removeSong(Song s) {
+        for (Song song: this.songs) {
+            if (song.getName().equals(s.getName())) {
+                this.songs.remove(song);
+            }
+        }
+    }
+
 }

@@ -31,15 +31,19 @@
     <%
         List<Artist> allArtists = (List<Artist>) request.getAttribute("allArtists");
         for (Artist artist : allArtists) {
+            if (artist != null && artist.getName() != "" && artist.getName() != "null" && artist.getAlbums().size() != 0) {
     %> <h2><%=artist.getName()%></h2>
     <%
         for (Album album : artist.getAlbums()) {
+            if(album != null && album.getName() != "" && album.getName() != "null" && album.getSongs().size() != 0) {
     %> <h3><%=album.getName()%></h3>
     <%
         for (Song song: album.getSongs())  {
+            if (song != null && song.getName() != "" && song.getName() != "null") {
     %>
     <input type="radio" name=idSong value=<%=String.valueOf(song.getId())%>> <%=song.getName()%><br>
-    <%}}}%>
+    <%}}}}}}%>
+    <input class="MainButtons" type="submit" name="action" value="Retirer ce son de la BDD">
 </form>
 </body>
 </html>

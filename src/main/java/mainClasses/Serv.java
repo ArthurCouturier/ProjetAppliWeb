@@ -132,10 +132,18 @@ public class Serv extends HttpServlet {
                             album.addSong(song);
                         }
                     } else {
-                        song = facade.findSongById(Integer.parseInt(request.getParameter("idSong")));
-                        if (song == null) {
-                            break;
+                        String idSong = request.getParameter("idSong");
+                        if (idSong != null && idSong != "") {
+                            song = facade.findSongById(Integer.parseInt(idSong));
+                            if (song == null) {
+                                break;
+                            }
                         }
+                        request.setAttribute("user", this.actualUser);
+                        List<Artist> allArtists = facade.getAllArtists();
+                        request.setAttribute("allArtists", allArtists);
+                        request.getRequestDispatcher("addSong.jsp").forward(request, response);
+                        break;
                     }
                     Playlist playlist = facade.findPlaylist(request.getParameter("idPlaylist"));
                     if (playlist != null) {
@@ -152,6 +160,18 @@ public class Serv extends HttpServlet {
                     this.actualPlaylist = facade.removeSong(this.actualPlaylist,idSong);
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
+                    break;
+                }
+
+                case "Retirer ce son de la BDD": {
+                    Song song = facade.findSongById(Integer.parseInt(request.getParameter("idSong")));
+                    if (song != null) {
+                        facade.removeSongOfDB(song);
+                    }
+                    request.setAttribute("user", this.actualUser);
+                    List<Artist> allArtists = facade.getAllArtists();
+                    request.setAttribute("allArtists", allArtists);
+                    request.getRequestDispatcher("addSong.jsp").forward(request, response);
                     break;
                 }
 
