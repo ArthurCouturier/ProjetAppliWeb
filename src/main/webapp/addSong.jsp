@@ -44,6 +44,7 @@
     <input type="radio" name=idSong value=<%=String.valueOf(song.getId())%>> <%=song.getName()%><br>
     <%}}}}}}%>
     <input class="MainButtons" type="submit" name="action" value="Retirer ce son de la BDD">
+    <input class="MainButtons" type="submit" name="action" value="Retour Selection Playlist">
 </form>
 </body>
 </html>

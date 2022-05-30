@@ -2,6 +2,7 @@ package mainClasses;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -13,12 +14,17 @@ public class Song implements Serializable {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Album album;
 
-    private String url;
+
     @ManyToMany(cascade = CascadeType.REMOVE)
-    private Collection<Artist> artists;
+    private Collection<Playlist> playlists = new ArrayList<Playlist>() ;
+
+    private String url;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Collection<Artist> artists = new ArrayList<Artist>() ;
 
     public Song(String name, Album album, String url) {
         this.name = name;
@@ -60,5 +66,25 @@ public class Song implements Serializable {
 
     public int getId() {
         return this.id;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setArtists(Collection<Artist> artists) {
+        this.artists = artists;
+    }
+
+    public Collection<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(Collection<Playlist> playlists) {
+        this.playlists = playlists;
+    }
+
+    public void addPlaylist(Playlist playlist){
+        this.playlists.add(playlist);
     }
 }

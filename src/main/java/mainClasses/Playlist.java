@@ -18,7 +18,7 @@ public class Playlist {
     private User user;
 
     @ManyToMany
-    private Collection<Song> songs;
+    private Collection<Song> songs ;
 
     public Playlist(String name) {
         this.name = name;
@@ -59,6 +59,10 @@ public class Playlist {
 
     public Collection<Song> getSongs() {
         return songs;
+    }
+
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
     }
 
 }

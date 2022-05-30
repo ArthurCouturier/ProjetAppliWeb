@@ -70,11 +70,15 @@ public class Album  {
     }
 
     public void removeSong(Song s) {
-        for (Song song: this.songs) {
-            if (song.getName().equals(s.getName())) {
-                this.songs.remove(song);
-            }
-        }
+        this.songs.remove(s);
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
     }
 
 }

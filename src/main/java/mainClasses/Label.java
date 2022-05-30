@@ -11,7 +11,6 @@ public class Label {
     private int id;
 
     private String name;
-
     @OneToMany
     private Collection<Album> albums;
     
@@ -25,5 +24,9 @@ public class Label {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setAlbums(Collection<Album> albums) {
+        this.albums = albums;
     }
 }

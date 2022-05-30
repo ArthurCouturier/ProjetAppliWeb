@@ -49,4 +49,8 @@ public class Artist {
     public Collection<Album> getAlbums() {
         return this.albums;
     }
+
+    public void setAlbums(Collection<Album> albums) {
+        this.albums = albums;
+    }
 }

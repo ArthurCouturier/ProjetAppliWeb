@@ -95,6 +95,16 @@ public class Facade {
         return song;
     }
 
+    public Playlist addPlaylistoSong(String idSong, Playlist playlist){
+        transac.begin();
+        Playlist playlist1 = em.find(Playlist.class,playlist.getId());
+        Song song = em.find(Song.class,Integer.parseInt(idSong));
+        song.addPlaylist(playlist1);
+        em.merge(song);
+        transac.commit();
+        return playlist1;
+    }
+
     public User findUser(String pseudo, String password) {
         // In order to destroy our database, comment rest of this code and add a return null; statement at the end
         /*transac.begin();
@@ -161,15 +171,18 @@ public class Facade {
     }
 
     public Song findSongById(int idSong) {
-        TypedQuery<Song> reqSong = (TypedQuery<Song>) em.createQuery("select song from Song song where song.id = :id", Song.class).setParameter("id", idSong);
-        if (!reqSong.getResultList().isEmpty()) {
-            return reqSong.getResultList().get(0);
-        }
-        return null;
+//        TypedQuery<Song> reqSong = (TypedQuery<Song>) em.createQuery("select song from Song song where song.id = :id", Song.class).setParameter("id", idSong);
+//        if (!reqSong.getResultList().isEmpty()) {
+//            return reqSong.getResultList().get(0);
+//        }
+        Song son = em.find(Song.class, idSong);
+
+        return son;
     }
 
     public List<Artist> getAllArtists() {
         TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createQuery("select artist from Artist artist", Artist.class);
+        System.out.println("Test taille :" + reqArtist.getResultList().size());
         return reqArtist.getResultList();
     }
 
@@ -203,20 +216,103 @@ public class Facade {
         return playlist1;
     }
 
+    public void deleteAll(){
+        System.out.println("Test");
+        List<User> users = em.createQuery("select user from User user  ").getResultList();
+        List<Album> albums = em.createQuery("select album from Album album  ").getResultList();
+        List<Artist> artists = em.createQuery("select artist from Artist artist  ").getResultList();
+        List<Label> labels = em.createQuery("select label from Label label  ").getResultList();
+        List<Playlist> playlists = em.createQuery("select playlist from Playlist playlist  ").getResultList();
+        List<Song> songs = em.createQuery("select song from Song song  ").getResultList();
+        transac.begin();
+        System.out.println("Test1 user");
+        for ( User user : users) {
+            user.setPlaylists(null);
+            em.merge(user);
+        }
+        System.out.println("Test2 user");
+        System.out.println("Test1 album");
+        for ( Album album : albums) {
+            album.setArtist(null);
+            album.setSongs(null);
+            em.merge(album);
+        }
+        System.out.println("Test2 album");
+        System.out.println("Test1 artist");
+        for ( Artist artist : artists) {
+            artist.setAlbums(null);
+            em.merge(artist);
+        }
+        System.out.println("Test2 artist");
+        System.out.println("Test1 label");
+        for ( Label label : labels) {
+            label.setAlbums(null);
+            em.merge(label);
+        }
+        System.out.println("Test2 label");
+        System.out.println("Test1 playlist");
+        for ( Playlist playlist : playlists) {
+            playlist.setSongs(null);
+            playlist.setUser(null);
+            em.merge(playlist);
+        }
+        System.out.println("Test2 playlist");
+        System.out.println("Test1 song");
+        for ( Song song : songs) {
+            song.setArtists(null);
+            song.setArtists(null);
+            song.setPlaylists(null);
+            em.merge(song);
+        }
+        System.out.println("Test2 song");
+        transac.commit();
+
+        System.out.println("Debut supression");
+        transac.begin();
+        em.createQuery("delete from User").executeUpdate();
+        em.createQuery("delete from Album").executeUpdate();
+        em.createQuery("delete from Artist").executeUpdate();
+        em.createQuery("delete from Playlist").executeUpdate();
+        em.createQuery("delete from Song").executeUpdate();
+        em.createQuery("delete from Label").executeUpdate();
+        transac.commit();
+        System.out.println("Fin supression");
+    }
+
     public void removeSongOfDB(Song song){
-        System.out.println("I will delete "+song.getName()+" of the DB");
-        /*transac.begin();
-        em.createQuery("delete from Song where id = :id")
-                .setParameter("id", song.getId())
-                .executeUpdate();
-        transac.commit();*/
-        em.getTransaction().begin();
-        System.out.println("TEST FACADE removesongofdb: "+em.find(Song.class, song.getId()));
-        em.remove(song);
-        System.out.println("TEST FACADE2 removesongofdb: "+em.find(Song.class, song.getId()));
-        System.out.println("TEST FACADE 2.5 flushmode: "+em.getFlushMode());
-        em.setFlushMode(FlushModeType.COMMIT);
-        System.out.println("TEST FACADE3 removesongofdb: "+em.find(Song.class, song.getId()));
-        em.getTransaction().commit();
+        transac.begin();
+        Song songsuppr = em.find(Song.class,song.getId());
+        TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createQuery("select artist from Artist artist", Artist.class);
+        for(Artist artist : reqArtist.getResultList()){
+            Artist artist1 = em.find(Artist.class, artist.getId());
+            for( Album album : artist1.getAlbums()) {
+                Album album1 = em.find(Album.class,album.getId());
+                album1.removeSong(songsuppr);
+                em.merge(album1);
+            }
+            em.merge(artist1);
+        }
+
+        TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select playlist from Playlist playlist", Playlist.class);
+        for(Playlist playlist : reqPlaylist.getResultList()){
+            Playlist playlist1 = em.find(Playlist.class, playlist.getId());
+            playlist1.removeSong(songsuppr);
+            em.merge(playlist1);
+        }
+        songsuppr.setUrl(null);
+        songsuppr.setArtists(null);
+        songsuppr.setPlaylists(null);
+        songsuppr.setAlbum(null);
+        em.merge(songsuppr);
+        transac.commit();
+
+        System.out.println(songsuppr.getAlbum() +" "+ songsuppr.getPlaylists());
+
+        transac.begin();
+        songsuppr = em.find(Song.class,songsuppr.getId());
+        em.remove(songsuppr);
+        transac.commit();
+
+
     }
 }

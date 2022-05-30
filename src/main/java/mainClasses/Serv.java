@@ -133,27 +133,36 @@ public class Serv extends HttpServlet {
                         }
                     } else {
                         String idSong = request.getParameter("idSong");
-                        if (idSong != null && idSong != "") {
+                        if (idSong != null ) {
                             song = facade.findSongById(Integer.parseInt(idSong));
                             if (song == null) {
+                                request.setAttribute("user", this.actualUser);
+                                List<Artist> allArtists = facade.getAllArtists();
+                                request.setAttribute("allArtists", allArtists);
+                                request.getRequestDispatcher("addSong.jsp").forward(request, response);
                                 break;
                             }
+                        } else {
+                            request.setAttribute("user", this.actualUser);
+                            List<Artist> allArtists = facade.getAllArtists();
+                            request.setAttribute("allArtists", allArtists);
+                            request.getRequestDispatcher("addSong.jsp").forward(request, response);
+                            break;
                         }
-                        request.setAttribute("user", this.actualUser);
-                        List<Artist> allArtists = facade.getAllArtists();
-                        request.setAttribute("allArtists", allArtists);
-                        request.getRequestDispatcher("addSong.jsp").forward(request, response);
-                        break;
                     }
                     Playlist playlist = facade.findPlaylist(request.getParameter("idPlaylist"));
                     if (playlist != null) {
                         this.actualPlaylist = playlist;
                     }
-                    facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
+                    System.out.println(this.actualPlaylist.getName());
+                    this.actualPlaylist = facade.addPlaylistoSong(String.valueOf(song.getId()),this.actualPlaylist);
+                    this.actualPlaylist = facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
+                    System.out.println("apres"+this.actualPlaylist.getName());
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
                 }
+
 
                 case "Supprimer un son": {
                     String idSong = request.getParameter("idSong");
@@ -165,13 +174,25 @@ public class Serv extends HttpServlet {
 
                 case "Retirer ce son de la BDD": {
                     Song song = facade.findSongById(Integer.parseInt(request.getParameter("idSong")));
+                    String idPlaylist = String.valueOf(this.actualPlaylist.getId());
                     if (song != null) {
+                        this.actualPlaylist = null;
                         facade.removeSongOfDB(song);
                     }
+                    if (request.getParameter("idPlaylist") != null) {
+                        idPlaylist = request.getParameter("idPlaylist");
+                    }
+                    this.actualPlaylist = facade.findPlaylist(String.valueOf(idPlaylist));
                     request.setAttribute("user", this.actualUser);
                     List<Artist> allArtists = facade.getAllArtists();
                     request.setAttribute("allArtists", allArtists);
                     request.getRequestDispatcher("addSong.jsp").forward(request, response);
+                    break;
+                }
+
+                case "Supprimer Tout": {
+                    facade.deleteAll();
+                    request.getRequestDispatcher("connecInscrip.jsp").forward(request, response);
                     break;
                 }
 
