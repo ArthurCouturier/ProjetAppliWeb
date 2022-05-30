@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 @WebServlet("/Serv")
 public class Serv extends HttpServlet {
@@ -25,7 +27,6 @@ public class Serv extends HttpServlet {
         try {
 
             String action = request.getParameter("action");
-            System.out.println("Test1");
             switch (action) {
                 case "connexion": {
                     String pseudo = request.getParameter("pseudo");
@@ -110,23 +111,37 @@ public class Serv extends HttpServlet {
                 }
 
                 case "Ajouter un son a la playlist": {
+                    request.setAttribute("user", this.actualUser);
+                    List<Artist> allArtists = facade.getAllArtists();
+                    request.setAttribute("allArtists", allArtists);
                     request.getRequestDispatcher("addSong.jsp").forward(request, response);
                     break;
                 }
 
-                case "Ajouter un son": {
-                    String nomSon = request.getParameter("newNameSon");
+                case "Soumettre un son": {
+                    String nomSon = request.getParameter("newSongName");
                     String artistName =  request.getParameter("newSongArtist");
                     String albumName = request.getParameter("newSongAlbum");
-                    String url = request.getParameter("newUrlSon");
-                    Song song = facade.addSong(nomSon,null,url);
-                    Album album = facade.findAlbumOfArtist(albumName, artistName);
-                    if (album.getSongs().contains(song)) {
-                        break;
+                    String url = request.getParameter("newSongURL");
+                    Song song;
+
+                    if (nomSon != "" && artistName != "" && albumName != "" && url != "") {
+                        song = facade.addSong(nomSon,null,url);
+                        Album album = facade.findAlbumOfArtist(albumName, artistName);
+                        if (!album.getSongs().contains(song)) {
+                            album.addSong(song);
+                        }
                     } else {
-                        album.addSong(song);
+                        song = facade.findSongById(Integer.parseInt(request.getParameter("idSong")));
+                        if (song == null) {
+                            break;
+                        }
                     }
-                    this.actualPlaylist = facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
+                    Playlist playlist = facade.findPlaylist(request.getParameter("idPlaylist"));
+                    if (playlist != null) {
+                        this.actualPlaylist = playlist;
+                    }
+                    facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;

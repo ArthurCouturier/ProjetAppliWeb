@@ -1,7 +1,10 @@
 package mainClasses;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 @Entity
 public class Artist {
@@ -17,6 +20,10 @@ public class Artist {
 
     public Artist(String name)  {
         this.name = name;
+        this.albums = new ArrayList<Album>();
+    }
+
+    public Artist() {
     }
 
     public int getId() {

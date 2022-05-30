@@ -1,6 +1,7 @@
 package mainClasses;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -22,10 +23,18 @@ public class Album  {
     private Collection<Song> songs;
 
     public Album(String name, Artist artist, Label label) {
+        this.name = name;
         this.artist = artist;
         this.label = label;
-        label.addAlbum(this);
+        if (label != null) {
+            label.addAlbum(this);
+        }
+        this.songs = new ArrayList<Song>();
         artist.addAlbum(this);
+    }
+
+    public Album() {
+
     }
 
     public void addSong(Song s) {

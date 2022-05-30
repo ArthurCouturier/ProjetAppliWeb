@@ -157,7 +157,7 @@ input {
 }
 
 
-/* CSS lié aux radio buttons de la playlist viewer notamment */
+/* CSS lié aux radio buttons de la playlist viewer notamment
 #radios{
   position:relative;
   width:50%;
@@ -187,3 +187,4 @@ input[type="radio"]{
   animation-fill-mode: forwards;
   transition: 0.2s left .05s ease-in-out;
 }
+*/

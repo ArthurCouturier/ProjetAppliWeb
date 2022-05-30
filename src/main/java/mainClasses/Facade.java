@@ -5,6 +5,8 @@ import javax.persistence.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class Facade {
@@ -107,7 +109,6 @@ public class Facade {
             System.out.println("correct user correct password");
             //TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select playlists from Playlist playlists JOIN playlists.user user where user.pseudo = :pseudo ", Playlist.class).setParameter("pseudo",pseudo);
             // List<Playlist> playlist2 = reqPlaylist.getResultList();
-            //System.out.println("Test" + playlist2);
             return user;
         } else {
             System.out.println("correct user incorrect password");
@@ -124,26 +125,47 @@ public class Facade {
 
     public Artist findArtistByName(String artistName) {
         TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createQuery("select artist from Artist artist where artist.name = :pseudo ", Artist.class).setParameter("pseudo",artistName);
-        Artist artist = reqArtist.getSingleResult();
-        if (artist == null) {
-            artist = new Artist(artistName);
+        List<Artist> artists = reqArtist.getResultList();
+        if (artists.isEmpty()) {
+            Artist artist = new Artist(artistName);
+            em.persist(artist);
+            return artist;
+        } else {
+            return artists.get(0);
         }
-        return artist;
     }
 
     public Album findAlbumOfArtist(String albumName, String artistName) {
         Artist artist = findArtistByName(artistName);
-        for (Album album: artist.getAlbums()) {
-            if (album.getName() == albumName) {
-                return album;
+        if (artist != null && artist.getAlbums() != null) {
+            for (Album album: artist.getAlbums()) {
+
+                if (album.getName() != null && album.getName().equals(albumName)) {
+                    return album;
+                }
             }
         }
-        return new Album(albumName, artist, null);
+        Album album = new Album(albumName, artist, null);
+        em.persist(album);
+        return album;
     }
     public Playlist findPlaylist(String idPlaylist) {
         int idPlaylist1 = Integer.parseInt(idPlaylist);
         Playlist playlist = em.find(Playlist.class, idPlaylist1);
         return playlist;
+    }
+
+    public Song findSongById(int idSong) {
+        TypedQuery<Song> reqSong = (TypedQuery<Song>) em.createQuery("select song from Song song where song.id = :id", Song.class).setParameter("id", idSong);
+        if (!reqSong.getResultList().isEmpty()) {
+            return reqSong.getResultList().get(0);
+        }
+        return null;
+    }
+
+    public List<Artist> getAllArtists() {
+        TypedQuery<Artist> reqArtist = (TypedQuery<Artist>) em.createQuery("select artist from Artist artist", Artist.class);
+        return reqArtist.getResultList();
     }
 
     public void changePlaylistName(Playlist playlist, String newName) {

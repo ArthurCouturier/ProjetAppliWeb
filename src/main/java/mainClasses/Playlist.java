@@ -1,6 +1,7 @@
 package mainClasses;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -21,6 +22,7 @@ public class Playlist {
 
     public Playlist(String name) {
         this.name = name;
+        this.songs = new ArrayList<Song>();
     }
 
     public Playlist() {
