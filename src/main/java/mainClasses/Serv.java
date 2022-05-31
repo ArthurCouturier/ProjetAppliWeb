@@ -123,6 +123,15 @@ public class Serv extends HttpServlet {
                     String artistName =  request.getParameter("newSongArtist");
                     String albumName = request.getParameter("newSongAlbum");
                     String url = request.getParameter("newSongURL");
+
+                    if (url.contains("youtu")) {
+                        if (url.contains("youtube")) {
+                            url = "https://www.youtube.com/embed/"+url.substring(32, 43);
+                        } else if (url.contains("youtu.be")) {
+                            url = "https://www.youtube.com/embed/"+url.substring(17, 28);
+                        }
+                    }
+
                     Song song;
 
                     if (nomSon != "" && artistName != "" && albumName != "" && url != "") {
