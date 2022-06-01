@@ -116,11 +116,13 @@ public class Facade {
         em.createQuery("delete from Label label").executeUpdate();
         transac.commit();*/
         TypedQuery<User> reqUser = (TypedQuery<User>) em.createQuery("select user from User user where user.pseudo = :pseudo ", User.class).setParameter("pseudo",pseudo);
-        User user = reqUser.getResultList().get(0);
-        if (user == null) {
+        List<User> users = reqUser.getResultList();
+        if (users.isEmpty()) {
             System.out.println("incorrect user");
             return null;
-        } else if (user.getPassword().equals(password)){
+        }
+        User user = users.get(0);
+        if (user.getPassword().equals(password)){
             System.out.println("correct user correct password");
             //TypedQuery<Playlist> reqPlaylist = (TypedQuery<Playlist>) em.createQuery("select playlists from Playlist playlists JOIN playlists.user user where user.pseudo = :pseudo ", Playlist.class).setParameter("pseudo",pseudo);
             // List<Playlist> playlist2 = reqPlaylist.getResultList();

@@ -22,12 +22,14 @@
 
         <p>By signing up, I agree to the Terms of Service and Privacy Policy</p>
 
-        <input type="submit" name="action" value="inscription">
+        <input class="MainButtons" type="submit" name="action" value="inscription">
     </form>
     <% String typeError = (String) request.getAttribute("error");
         if (typeError == "pseudoInvalid")  { %>
     Pseudo déjà utilisé !! Veuillez réessayer !!
-    <% } %>
+    <% } else if (typeError == "notCompletedFormulary") { %>
+    Il manque des informations pour l'inscription
+    <%}%>
 </div>
 
 <p></p>

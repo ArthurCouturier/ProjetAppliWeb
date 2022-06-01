@@ -51,6 +51,11 @@ public class Serv extends HttpServlet {
                     String pseudo = request.getParameter("pseudo");
                     String password = request.getParameter("password");
                     String email = request.getParameter("email");
+                    if (pseudo == null || password == null || email == null) {
+                        request.setAttribute("error", "notCompletedFormulary");
+                        request.getRequestDispatcher("inscription.jsp").forward(request, response);
+                        break;
+                    }
                     facade.addUser(pseudo, email, password);
                     request.getRequestDispatcher("connection.jsp").forward(request, response);
                     break;
@@ -66,8 +71,10 @@ public class Serv extends HttpServlet {
 
                 case "Changer le nom de la playlist": {
                     String newNom = request.getParameter("newNom");
-                    facade.changePlaylistName(actualPlaylist, newNom);
-                    this.actualPlaylist = facade.findPlaylist(String.valueOf(this.actualPlaylist.getId()));
+                    if (newNom != null) {
+                        facade.changePlaylistName(actualPlaylist, newNom);
+                        this.actualPlaylist = facade.findPlaylist(String.valueOf(this.actualPlaylist.getId()));
+                    }
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
@@ -75,17 +82,24 @@ public class Serv extends HttpServlet {
 
                 case "Accéder à la Playlist": {
                     String idplaylist = request.getParameter("idPlaylist");
-                    this.actualPlaylist = facade.findPlaylist(idplaylist);
-                    request.setAttribute("playlist", this.actualPlaylist);
-                    request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
+                    if (idplaylist != null) {
+                        this.actualPlaylist = facade.findPlaylist(idplaylist);
+                        request.setAttribute("playlist", this.actualPlaylist);
+                        request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
+                        break;
+                    }
+                    request.setAttribute("user", actualUser);
+                    request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
                     break;
                 }
 
                 case "Supprimer la Playlist": {
                     this.actualPlaylist = null;
                     String idplaylist = request.getParameter("idPlaylist");
-                    Playlist playlistsuppr = facade.findPlaylist(idplaylist);
-                    this.actualUser = facade.removePlaylist(playlistsuppr, this.actualUser);
+                    if (idplaylist != null) {
+                        Playlist playlistsuppr = facade.findPlaylist(idplaylist);
+                        this.actualUser = facade.removePlaylist(playlistsuppr, this.actualUser);
+                    }
                     request.setAttribute("user", actualUser);
                     request.getRequestDispatcher("personnalPage.jsp").forward(request, response);
                     break;
@@ -105,8 +119,13 @@ public class Serv extends HttpServlet {
 
                 case "Accéder au Son": {
                     String idSong = request.getParameter("idSong");
-                    request.setAttribute("son", facade.findSong(idSong));
-                    request.getRequestDispatcher("launcherSon.jsp").forward(request, response);
+                    if (idSong != null) {
+                        request.setAttribute("son", facade.findSong(idSong));
+                        request.getRequestDispatcher("launcherSon.jsp").forward(request, response);
+                        break;
+                    }
+                    request.setAttribute("playlist", this.actualPlaylist);
+                    request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
                 }
 
@@ -130,6 +149,11 @@ public class Serv extends HttpServlet {
                         } else if (url.contains("youtu.be")) {
                             url = "https://www.youtube.com/embed/"+url.substring(17, 28);
                         }
+                    }
+
+                    Playlist playlist = facade.findPlaylist(request.getParameter("idPlaylist"));
+                    if (playlist != null) {
+                        this.actualPlaylist = playlist;
                     }
 
                     Song song;
@@ -159,14 +183,9 @@ public class Serv extends HttpServlet {
                             break;
                         }
                     }
-                    Playlist playlist = facade.findPlaylist(request.getParameter("idPlaylist"));
-                    if (playlist != null) {
-                        this.actualPlaylist = playlist;
-                    }
-                    System.out.println(this.actualPlaylist.getName());
+
                     this.actualPlaylist = facade.addPlaylistoSong(String.valueOf(song.getId()),this.actualPlaylist);
                     this.actualPlaylist = facade.addSongPlaylist(String.valueOf(song.getId()),this.actualPlaylist);
-                    System.out.println("apres"+this.actualPlaylist.getName());
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
@@ -175,7 +194,9 @@ public class Serv extends HttpServlet {
 
                 case "Supprimer un son": {
                     String idSong = request.getParameter("idSong");
-                    this.actualPlaylist = facade.removeSong(this.actualPlaylist,idSong);
+                    if (idSong != null) {
+                        this.actualPlaylist = facade.removeSong(this.actualPlaylist,idSong);
+                    }
                     request.setAttribute("playlist", this.actualPlaylist);
                     request.getRequestDispatcher("playlistViewer.jsp").forward(request, response);
                     break;
